@@ -5,6 +5,8 @@
 First public build. Built live, in public.
 
 ### Added
+- AI caption generation: Whisper transcribes the clip, Claude suggests 3
+    SEO-optimized tweet captions, terminal picker with 10s auto-select countdown
 - Two voice commands via offline Vosk recognition:
   - "aye clip that" — retro clip of the last 60s (configurable to 90)
   - "aye clip this" … "aye clip that"/"aye end clip" — forward clip of an exact

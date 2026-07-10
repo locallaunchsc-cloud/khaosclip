@@ -80,6 +80,24 @@ class Settings(BaseSettings):
         description="Process clips but never post. For rehearsals.",
     )
     clip_tweet_text: str = "LIVE right now — clipped in real time 🎬"
+
+    # ------------------------------------------------------------ AI captions
+    ai_captions: bool = Field(
+        default=True,
+        description="Transcribe the clip and ask Claude for SEO-optimized tweet captions.",
+    )
+    anthropic_api_key: str = Field(
+        default="",
+        description="Anthropic API key for caption generation (anthropic.com/api).",
+    )
+    streamer_context: str = Field(
+        default="crypto / Web3 streamer on X, live trade calls, Solana and Hyperliquid perps",
+        description="One-line description of your niche — Claude uses this to write on-brand captions.",
+    )
+    caption_pick_timeout: int = Field(
+        default=10,
+        description="Seconds before auto-selecting caption #1 if you don't pick.",
+    )
     post_max_retries: int = 3
 
     x_api_key: str = ""

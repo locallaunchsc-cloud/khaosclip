@@ -27,6 +27,7 @@ from khaosclip.events import ClipEvent, EventBus
 from khaosclip.history import History
 from khaosclip.log import get_logger
 from khaosclip.pipeline import probe_duration, process_clip
+from khaosclip.caption_ai import get_caption_for_clip
 from khaosclip.publish import XPublisher
 
 log = get_logger("worker")
@@ -156,8 +157,12 @@ class ClipWorker:
         if not s.auto_post:
             log.info(f"AUTO_POST off — clip ready at {clip}")
             return
+
+        # AI caption: transcribe + Claude suggestions + terminal picker
+        caption = get_caption_for_clip(clip)
+
         try:
-            url = self.publisher.post_clip(clip, text=s.clip_tweet_text)
+            url = self.publisher.post_clip(clip, text=caption)
             self.history.mark_posted(clip_id, url)
         except Exception as e:
             self.history.mark_failed(clip_id, f"post: {e}")

@@ -117,6 +117,12 @@ vertical clip in `./clips`. Add `--post` to send it to X for real.
 Everything lives in `.env` ([.env.example](.env.example) has the full list):
 
 ```ini
+# AI captions
+AI_CAPTIONS=true
+ANTHROPIC_API_KEY=your-key-here
+STREAMER_CONTEXT=crypto / Web3 streamer, live trade calls, Solana and Hyperliquid perps
+CAPTION_PICK_TIMEOUT=10
+
 RETRO_PHRASES=aye clip that                    # your words, your call
 START_PHRASES=aye clip this
 END_PHRASES=aye end clip,aye stop clip
@@ -143,11 +149,33 @@ CAPTIONS=false                                 # burned captions (heavier CPU)
 
 ## Roadmap
 
+## AI Caption Generation
+
+After every clip, KhaosClip transcribes what you said and asks Claude for 3
+SEO-optimized tweet captions tailored to your niche:
+
+```
+  📋  CAPTION SUGGESTIONS  (clip is ready to post)
+────────────────────────────────────────────────────────────
+  [1] I called this trade LIVE and it hit exactly 🎯 #Hyperliquid #crypto
+  [2] nobody believed me on this setup 👀 #HoodToshi #Solana
+  [3] just printed live on stream 💰 #perps #trading
+
+  [Enter] post with [1]  |  type 2 or 3 to pick another
+  [s] skip / use default  |  [e] edit before posting
+────────────────────────────────────────────────────────────
+  Auto-posting in 8s…
+```
+
+10 seconds to pick. Auto-selects #1 if you ignore it. The clip is never
+held hostage. Enable with `AI_CAPTIONS=true` and your `ANTHROPIC_API_KEY`.
+
+## Roadmap
+
 - [ ] **Chat trigger** — viewers type `!clip`; your audience becomes the clipping army
 - [ ] **AI moment detection** — audio energy + chat velocity pick the clip boundaries
 - [ ] **Karaoke captions** — word-by-word styled captions
 - [ ] **Style presets** — per-streamer branding (fonts, colors, layouts)
-- [ ] **Multi-platform** — same buffer → TikTok / YT Shorts
 - [ ] **Hosted tier** — zero install, browser dashboard, cloud processing
 
 Building in public. Follow along: [@KhaosClipper](https://x.com/KhaosClipper)
