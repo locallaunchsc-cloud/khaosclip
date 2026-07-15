@@ -88,6 +88,28 @@ for 3 tweet captions tailored to your niche:
 Whisper or the API ever fails, it posts with your default text instead —
 **the clip is never held hostage.**
 
+## Skills — clip in your style
+
+Every streamer has a caption voice. Skills are style templates that shape how
+Claude writes yours:
+
+| Skill | Style |
+|---|---|
+| `yoxic_jack` | Expert/insider — hook question, guest quotes with numbers, scarcity ("five-figure collectible, guaranteed") |
+| `crypto_alpha` | Trade call receipts — entry → exit with numbers, proof of prediction |
+| `comedy` | Reaction captions — relatable, emote-heavy, self-aware |
+| `narrative` | Story arc — before → problem → solution → outcome |
+| `default` | Balanced, no specific style |
+
+```powershell
+khaosclip skills                 # list all styles
+khaosclip run --skill yoxic_jack # use one for this session
+```
+
+Or set it permanently: `CAPTION_SKILL=crypto_alpha` in `.env`. Custom styles:
+drop your own `.json` in [skills/](skills/) — the format is four fields, and
+your style is live on the next clip.
+
 ## The receipts
 
 Every clip NameiT posts gets tracked with live X metrics:
@@ -174,6 +196,7 @@ MAX_FORWARD_SECONDS=90
 AI_CAPTIONS=true
 ANTHROPIC_API_KEY=your-key
 STREAMER_CONTEXT=crypto / Web3 streamer, live trade calls, Solana and Hyperliquid perps
+CAPTION_SKILL=crypto_alpha
 
 # Growth loop — every posted clip carries your tag
 BRAND_TAG=🎬 clipped live by voice — nameit.vercel.app
@@ -200,6 +223,7 @@ HOTKEY=ctrl+alt+c
 - [x] Two-command voice system with mishearing normalization
 - [x] AI captions (Whisper + Claude)
 - [x] Receipts engine — live metrics for every clip
+- [x] Skills — caption style templates (yoxic_jack, crypto_alpha, comedy, narrative + custom)
 - [x] Cloud relay — OAuth once, no developer account
 - [ ] **Chat trigger** — viewers type `!clip`; your audience becomes the clipping army
 - [ ] **AI moment detection** — audio energy + chat velocity pick the clip boundaries

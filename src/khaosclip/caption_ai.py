@@ -22,6 +22,7 @@ from pathlib import Path
 
 from khaosclip.config import get_settings
 from khaosclip.log import get_logger
+from khaosclip.skills import get_active_skill
 
 log = get_logger("caption")
 
@@ -68,7 +69,14 @@ def generate_captions(transcript: str, context: str = "") -> list[str]:
         log.warning("ANTHROPIC_API_KEY not set — skipping AI captions.")
         return []
 
-    user_msg = f"""Streamer niche/context: {context or s.streamer_context}
+    skill = get_active_skill(s.caption_skill)
+    skill_block = ""
+    if skill:
+        skill_block = f"\n\nCAPTION STYLE — {skill.name}:\n{skill.system_prompt_addon}"
+        if skill.example_caption:
+            skill_block += f"\nExample of this style: {skill.example_caption}"
+
+    user_msg = f"""Streamer niche/context: {context or s.streamer_context}{skill_block}
 
 Clip transcript:
 {transcript or "(no transcript available)"}
@@ -123,8 +131,8 @@ def pick_caption(captions: list[str], default: str, timeout: int = 10) -> str:
     print("─" * 60)
     for i, cap in enumerate(captions, 1):
         print(f"  [{i}] {cap}")
-    print(f"\n  [Enter] post with [1]  |  type 2 or 3 to pick another")
-    print(f"  [s] skip / use default  |  [e] edit before posting")
+    print("\n  [Enter] post with [1]  |  type 2 or 3 to pick another")
+    print("  [s] skip / use default  |  [e] edit before posting")
     print("─" * 60)
 
     chosen = [captions[0]]  # default

@@ -74,9 +74,34 @@ class XPublisher:
             log.info(f"[DRY RUN] Would post {video.name}: \"{text}\"")
             return "dry-run://not-posted"
 
+        if s.cloud_mode:
+            return self._post_via_relay(video, text)
+
         auth = self._auth()
         media_id = self._upload_video(video, auth)
         return self._create_post(text, media_id, auth)
+
+    # ------------------------------------------------------------ cloud relay
+    def _post_via_relay(self, video: Path, text: str) -> str:
+        """Post through the NameiT relay — no local X API keys needed."""
+        s = get_settings()
+        if not (s.nameit_api_key and s.relay_url):
+            raise PublishError(
+                "CLOUD_MODE=true but NAMEIT_API_KEY or RELAY_URL missing. "
+                "Visit the relay's /auth/login page to connect your X account."
+            )
+        log.info(f"Uploading {video.name} via NameiT relay…")
+        with open(video, "rb") as f:
+            r = self._request(
+                "POST", f"{s.relay_url.rstrip('/')}/api/v1/clips",
+                headers={"Authorization": f"Bearer {s.nameit_api_key}"},
+                files={"video": (video.name, f, "video/mp4")},
+                data={"caption": text},
+            )
+        body = r.json()
+        url = body["url"]
+        log.info(f"[bold green]LIVE ON X[/bold green] (as @{body.get('posted_as', '?')}) -> {url}")
+        return url
 
     # ------------------------------------------------------------ upload
     def _upload_video(self, video: Path, auth: OAuth1) -> str:

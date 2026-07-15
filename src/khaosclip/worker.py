@@ -21,13 +21,13 @@ from __future__ import annotations
 
 import time
 
+from khaosclip.caption_ai import get_caption_for_clip
 from khaosclip.capture import OBSCapture
 from khaosclip.config import get_settings
 from khaosclip.events import ClipEvent, EventBus
 from khaosclip.history import History
 from khaosclip.log import get_logger
 from khaosclip.pipeline import probe_duration, process_clip
-from khaosclip.caption_ai import get_caption_for_clip
 from khaosclip.publish import XPublisher
 
 log = get_logger("worker")
@@ -160,6 +160,8 @@ class ClipWorker:
 
         # AI caption: transcribe + Claude suggestions + terminal picker
         caption = get_caption_for_clip(clip)
+        if s.brand_tag:
+            caption = f"{caption}\n\n{s.brand_tag}"
 
         try:
             url = self.publisher.post_clip(clip, text=caption)

@@ -1,0 +1,6 @@
+{
+  "name": "Narrative Arc (Story)",
+  "description": "For clips that tell a story: before → problem → solution → outcome. Builds tension.",
+  "example_caption": "had 0 followers. built a bot. now it's tracking 100K wallets. here's how",
+  "system_prompt_addon": "This clip tells a complete story. Style: Set the stage (before). Name the problem. Show the fix. Land the outcome. Use narrative tension: each phrase should build on the last. Makes viewers want to watch the full clip. Example format: [situation] → [problem] → [solution turned into outcome]"
+}

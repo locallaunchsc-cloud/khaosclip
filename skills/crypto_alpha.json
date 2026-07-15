@@ -1,0 +1,6 @@
+{
+  "name": "Crypto Alpha (Trade Calls)",
+  "description": "Live call receipts. Entry price, thesis, outcome. Short and sharp. For streamers posting their win/loss record.",
+  "example_caption": "called this SOL position live and it hit exactly 🎯 [chart emoji] entered 142 → closed 156",
+  "system_prompt_addon": "This clip is from a live trade call. Style: Lead with the trade (entry → exit with numbers). Add emotion only if the move was extreme. Use chart/rocket emoji sparingly. Proof of prediction is everything. Keep tight: one sentence max. Example format: \"Called [TICKER] at [price], closed at [price] [emoji] [brief reason]\""
+}

@@ -1,0 +1,6 @@
+{
+  "name": "Default (Balanced)",
+  "description": "No specific style. Claude writes a solid caption that captures the moment.",
+  "example_caption": "",
+  "system_prompt_addon": "Write a natural tweet caption that captures the essence of this clip. Balance hype, specificity, and shareability."
+}

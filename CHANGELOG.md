@@ -5,6 +5,9 @@
 First public build. Built live, in public.
 
 ### Added
+- Skills: caption style templates (yoxic_jack expert/insider, crypto_alpha
+  trade receipts, comedy, narrative) — `khaosclip skills` to list,
+  `--skill <key>` per session, custom .json skills supported
 - AI caption generation: Whisper transcribes the clip, Claude suggests 3
     SEO-optimized tweet captions, terminal picker with 10s auto-select countdown
 - Two voice commands via offline Vosk recognition:

@@ -1,10 +1,7 @@
 """Caption AI tests — fully mocked, no Whisper, no API calls."""
 
 import json
-from pathlib import Path
 from unittest.mock import MagicMock, patch
-
-import pytest
 
 from khaosclip.caption_ai import generate_captions, get_caption_for_clip, pick_caption
 from khaosclip.config import reset_settings

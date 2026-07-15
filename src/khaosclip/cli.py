@@ -45,6 +45,7 @@ def run(
     no_voice: bool = typer.Option(False, help="Disable the voice trigger."),
     no_hotkey: bool = typer.Option(False, help="Disable the hotkey trigger."),
     dry_run: bool = typer.Option(False, help="Process clips but never post."),
+    skill: str = typer.Option(None, help="Caption style for this session (see: khaosclip skills)."),
 ):
     """Start the live agent. Go live, say "clip that", keep streaming."""
     _boot()
@@ -53,6 +54,9 @@ def run(
     if dry_run:
         s.dry_run = True
         log.info("[yellow]DRY RUN[/yellow] — clips will be processed but not posted.")
+    if skill:
+        s.caption_skill = skill
+        log.info(f"Caption skill for this session: [bold]{skill}[/bold]")
 
     from khaosclip.capture import OBSCapture, OBSError
     from khaosclip.events import EventBus
@@ -214,6 +218,70 @@ def history(limit: int = typer.Option(15, help="How many recent clips to show.")
         )
         table.add_row(when, r.source, status, r.tweet_url or (r.clip_path or ""))
     console.print(table)
+
+
+@app.command()
+def skills():
+    """List available caption style skills."""
+    _boot()
+    from khaosclip.skills import list_skills
+
+    found = list_skills()
+    if not found:
+        console.print("[dim]No skills/ directory found.[/dim]")
+        return
+    s = get_settings()
+    table = Table(title="Caption skills — set CAPTION_SKILL in .env or use: khaosclip run --skill <key>")
+    table.add_column("Key", style="bold")
+    table.add_column("Name")
+    table.add_column("What it's for")
+    for sk in found:
+        active = " [green]← active[/green]" if sk.key == s.caption_skill else ""
+        table.add_row(sk.key + active, sk.name, sk.description)
+    console.print(table)
+
+
+@app.command()
+def stats(
+    card: bool = typer.Option(False, "--card", help="Print a shareable receipts card."),
+):
+    """The receipts — live view counts for every clip NameiT posted."""
+    _boot()
+    from khaosclip.stats import collect, receipts_card, totals
+
+    s = get_settings()
+    stats_db = s.history_db.parent / "stats.db"
+    try:
+        results = collect(s.history_db, stats_db)
+    except Exception as e:
+        console.print(f"[red]Couldn't fetch metrics:[/red] {e}")
+        raise typer.Exit(1) from None
+
+    if not results:
+        console.print("[dim]No posted clips yet. Go make some noise.[/dim]")
+        return
+
+    if card:
+        console.print()
+        console.print(receipts_card(results, handle=s.watermark))
+        console.print()
+        return
+
+    t = totals(results)
+    table = Table(title="NameiT receipts — every clip, live numbers")
+    table.add_column("Views", justify="right", style="bold")
+    table.add_column("Likes", justify="right")
+    table.add_column("RTs", justify="right")
+    table.add_column("Replies", justify="right")
+    table.add_column("Clip")
+    for url, m in results:
+        table.add_row(f"{m.impressions:,}", f"{m.likes:,}", f"{m.reposts:,}",
+                      f"{m.replies:,}", url)
+    console.print(table)
+    console.print(f"\n[bold]TOTAL:[/bold] {t['clips']} clips · "
+                  f"[bold green]{t['impressions']:,} views[/bold green] · "
+                  f"{t['likes']:,} likes · {t['reposts']:,} reposts")
+    console.print("[dim]Share the flex: khaosclip stats --card[/dim]")
 
 
 @app.command()

@@ -98,12 +98,29 @@ class Settings(BaseSettings):
         default=10,
         description="Seconds before auto-selecting caption #1 if you don't pick.",
     )
+    caption_skill: str = Field(
+        default="default",
+        description="Caption style skill from skills/ (e.g. yoxic_jack, crypto_alpha, comedy).",
+    )
+    brand_tag: str = Field(
+        default="",
+        description="Appended to every posted caption (e.g. '🎬 clipped live — nameit.vercel.app'). "
+                    "Empty = off. This is the growth loop: every clip advertises the tool.",
+    )
     post_max_retries: int = 3
 
     x_api_key: str = ""
     x_api_secret: str = ""
     x_access_token: str = ""
     x_access_secret: str = ""
+
+    # ------------------------------------------------------------ cloud relay
+    cloud_mode: bool = Field(
+        default=False,
+        description="Post through the NameiT relay instead of your own X API keys.",
+    )
+    nameit_api_key: str = Field(default="", description="Your key from the relay's Connect page.")
+    relay_url: str = Field(default="", description="The relay base URL.")
 
     # ------------------------------------------------------------ misc
     log_level: str = "INFO"
