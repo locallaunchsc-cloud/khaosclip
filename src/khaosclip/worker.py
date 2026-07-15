@@ -163,6 +163,12 @@ class ClipWorker:
         if s.brand_tag:
             caption = f"{caption}\n\n{s.brand_tag}"
 
+        if s.post_mode == "manual":
+            from khaosclip.publish.manual import manual_share
+            status = manual_share(clip, caption)
+            self.history.mark_posted(clip_id, status)
+            return
+
         try:
             url = self.publisher.post_clip(clip, text=caption)
             self.history.mark_posted(clip_id, url)

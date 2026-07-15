@@ -1,6 +1,6 @@
 {
-  "name": "Default (Balanced)",
-  "description": "No specific style. Claude writes a solid caption that captures the moment.",
+  "name": "Insight Headline (Market/Meta Thesis)",
+  "description": "The big idea first. Someone just identified why an entire market moved, why a play worked, or why the game changed. Capture the thesis as the headline.",
   "example_caption": "@Threadguy explains why $ANSEM ripped: they made memecoins an unsolved game again",
   "system_prompt_addon": "This clip contains a market insight or meta observation. Style: Lead with the THESIS as a headline (the big insight that makes people stop scrolling). Add who's saying it if they have credibility. Optional: one key phrase that proves it. Format: '@[Name] [explains/reveals/calls]: [the insight/thesis]' or '[Insight]: [why it matters]'. Make it feel like a newsletter headline. Under 200 chars. Examples: '@0xJames explains why LayerZero became the most important standard', '@DefiDave calls: every memecoin cycle needs a new variable to re-solve the game'."
 }

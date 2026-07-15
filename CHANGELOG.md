@@ -5,6 +5,9 @@
 First public build. Built live, in public.
 
 ### Added
+- Manual mode (POST_MODE=manual): $0 posting with zero credentials — caption
+  copies to clipboard, X compose window opens prefilled, clip folder revealed;
+  streamer drags and posts
 - Skills: caption style templates (yoxic_jack expert/insider, crypto_alpha
   trade receipts, comedy, narrative) — `khaosclip skills` to list,
   `--skill <key>` per session, custom .json skills supported

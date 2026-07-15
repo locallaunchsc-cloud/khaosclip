@@ -2,6 +2,6 @@
   "name": "Yoxic Jack (TCG/Collectibles)",
   "description": "Expert opinion + insider knowledge. Hook with a question, layer guest quotes with specifics, emphasize scarcity/value.",
   "style": "Expert analysis meets market insider. Lead with curiosity/question. Feature specific numbers and credibility markers. Build to an exclusive revelation.",
-  "example_caption": "\"Five-figure collectible, guaranteed\" — TCG experts on the sealed Riftbound box (MSRP $700, Faker-signed, serialized)",
-  "system_prompt_addon": "This clip is from a TCG/collectibles expert or market analyst. Style: Hook the viewer with a surprising question or claim. Feature direct quotes from guests with specific numbers and proof points. Build credibility by naming the expert and their thesis. End on scarcity/exclusivity. Use numbers liberally. Keep it under 200 chars. Format: [Question/hook] → [\"Expert quote with numbers\"] → [proof/authority]"
+  "example_caption": "\"Five-figure collectible, guaranteed\" \u2014 TCG experts on the sealed Riftbound box (MSRP $700, Faker-signed, serialized)",
+  "system_prompt_addon": "This clip is from a TCG/collectibles expert or market analyst. Style: Hook the viewer with a surprising question or claim. Feature direct quotes from guests with specific numbers and proof points. Build credibility by naming the expert and their thesis. End on scarcity/exclusivity. Use numbers liberally. Keep it under 200 chars. Format: [Question/hook] \u2192 [\"Expert quote with numbers\"] \u2192 [proof/authority]"
 }

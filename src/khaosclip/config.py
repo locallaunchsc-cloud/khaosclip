@@ -74,6 +74,12 @@ class Settings(BaseSettings):
     whisper_model: str = "base"
 
     # ------------------------------------------------------------ publishing
+    post_mode: str = Field(
+        default="api",
+        description="'api' = auto-post via X API (costs ~$0.015/clip). "
+                    "'manual' = $0: opens compose window with caption prefilled, "
+                    "you drag the clip in and hit Post.",
+    )
     auto_post: bool = True
     dry_run: bool = Field(
         default=False,

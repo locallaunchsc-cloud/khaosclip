@@ -95,11 +95,12 @@ Claude writes yours:
 
 | Skill | Style |
 |---|---|
+| `insight_headline` | **Thesis first** — the big market insight/meta observation as a headline ("@Threadguy explains why $ANSEM ripped: they unsolved the memecoin game") |
 | `yoxic_jack` | Expert/insider — hook question, guest quotes with numbers, scarcity ("five-figure collectible, guaranteed") |
 | `crypto_alpha` | Trade call receipts — entry → exit with numbers, proof of prediction |
 | `comedy` | Reaction captions — relatable, emote-heavy, self-aware |
 | `narrative` | Story arc — before → problem → solution → outcome |
-| `default` | Balanced, no specific style |
+| `default` | Same as insight_headline |
 
 ```powershell
 khaosclip skills                 # list all styles
@@ -205,6 +206,25 @@ WATERMARK=@YourHandle
 HOTKEY=ctrl+alt+c
 ```
 
+## What it costs (honest numbers)
+
+The stack is free — OBS, offline voice, Whisper, ffmpeg all run locally.
+The only real cost is posting:
+
+| Mode | Streamer pays | Setup friction |
+|---|---|---|
+| **Manual mode** | **$0 forever** — no API at all. Compose window opens with the AI caption prefilled, you drag the clip in and hit Post (~8s) | None. No account, no keys, no card. |
+| **Cloud mode** | **$0** — posts bill to the NameiT relay app, fully hands-free | One OAuth click. Revoke anytime in X settings. |
+| Local mode | ~$0.015/clip via their own X dev account (~$2/mo at 100 clips) | Dev account + loading credits (card required) |
+| AI captions | ~half a cent per clip (own Anthropic key), optional | — |
+
+Set `POST_MODE=manual` and the entire stack — voice trigger, clip processing,
+AI captions — runs 100% free with zero credentials. The only manual step is
+the final drag-and-post.
+
+One rule either way: **keep captions link-free.** X bills posts containing a
+URL at ~$0.20 vs ~$0.015 without — NameiT warns you if a caption has a link.
+
 ## Built to not ruin your stream
 
 - **One clip at a time.** Triggers queue; a single worker processes. Shouting
@@ -225,6 +245,7 @@ HOTKEY=ctrl+alt+c
 - [x] Receipts engine — live metrics for every clip
 - [x] Skills — caption style templates (yoxic_jack, crypto_alpha, comedy, narrative + custom)
 - [x] Cloud relay — OAuth once, no developer account
+- [x] Manual mode — $0 posting, zero credentials, compose-window handoff
 - [ ] **Chat trigger** — viewers type `!clip`; your audience becomes the clipping army
 - [ ] **AI moment detection** — audio energy + chat velocity pick the clip boundaries
 - [ ] **Karaoke captions** — word-by-word styled captions

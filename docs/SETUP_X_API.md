@@ -25,10 +25,16 @@ khaosclip doctor          # credentials check
 khaosclip test some.mp4 --post   # full end-to-end: process + post for real
 ```
 
-## Rate limits & costs
-- Free tier: enough to test (limited posts/month)
-- Basic ($200/mo): comfortable for daily streaming volume
-- Media uploads are chunked at 4MB; a 45s 1080x1920 clip is typically 8–15MB
+## Costs (2026 pay-per-use — the free tier is gone)
+X moved to pay-per-use in Feb 2026. New developers load credits in the
+Developer Console (card required) and pay per call:
+- Plain post (video, no link): ~$0.015 → 100 clips/month ≈ $1.50
+- ⚠️ Post containing ANY link: ~$0.20 (13x) — keep captions link-free
+- Reading your own posts (khaosclip stats): ~$0.001 each — pennies
+- Media uploads are chunked at 4MB; a 60s 1080x1920 clip is typically 8–15MB
+
+**Don't want a dev account at all?** Use cloud mode — connect once via the
+relay's OAuth page, no keys, no card, no dev account. See cloud/README.md.
 
 ## Security
 - `.env` is gitignored. Never commit keys. Never post screenshots of the

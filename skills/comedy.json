@@ -1,6 +1,6 @@
 {
   "name": "Comedy Moment",
   "description": "Reaction-based. Capture the laugh, not the setup. Use emotes heavily. Go for relatability.",
-  "example_caption": "me when the call is live and someone asks to turn up their mic 💀",
-  "system_prompt_addon": "This is a funny moment from a stream. Style: Lead with the relatable take or reaction. Use emotes/kaomoji (💀 😭 💀 etc). Be self-aware/ironic, not try-hard. Assume the audience already knows the context. Short and punchy. Example: [relatable situation in 3 words] [emoji reaction]"
+  "example_caption": "me when the call is live and someone asks to turn up their mic \ud83d\udc80",
+  "system_prompt_addon": "This is a funny moment from a stream. Style: Lead with the relatable take or reaction. Use emotes/kaomoji (\ud83d\udc80 \ud83d\ude2d \ud83d\udc80 etc). Be self-aware/ironic, not try-hard. Assume the audience already knows the context. Short and punchy. Example: [relatable situation in 3 words] [emoji reaction]"
 }

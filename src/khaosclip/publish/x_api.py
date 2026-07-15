@@ -10,6 +10,7 @@ A failed post NEVER loses the clip — it's already safe on disk.
 
 from __future__ import annotations
 
+import re
 import time
 from pathlib import Path
 
@@ -67,9 +68,16 @@ class XPublisher:
         raise PublishError(f"Gave up after {s.post_max_retries} attempts: {last}")
 
     # ------------------------------------------------------------ public
+    URL_PATTERN = re.compile(r"https?://|www\.|\.com|\.app|\.io|\.xyz|\.gg")
+
     def post_clip(self, video: Path, text: str = "") -> str:
         """Upload the video and post it. Returns the post URL."""
         s = get_settings()
+        if text and self.URL_PATTERN.search(text):
+            log.warning(
+                "Caption contains a link — X bills URL posts at ~$0.20 vs ~$0.015 "
+                "without (13x). Consider a link-free caption/brand tag."
+            )
         if s.dry_run:
             log.info(f"[DRY RUN] Would post {video.name}: \"{text}\"")
             return "dry-run://not-posted"
