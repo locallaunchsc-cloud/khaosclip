@@ -46,6 +46,9 @@ def run(
     no_hotkey: bool = typer.Option(False, help="Disable the hotkey trigger."),
     dry_run: bool = typer.Option(False, help="Process clips but never post."),
     skill: str = typer.Option(None, help="Caption style for this session (see: khaosclip skills)."),
+    engine: str = typer.Option(
+        None, help="Voice engine for this session: openwakeword | vosk | auto."
+    ),
 ):
     """Start the live agent. Go live, say "clip that", keep streaming."""
     _boot()
@@ -57,6 +60,9 @@ def run(
     if skill:
         s.caption_skill = skill
         log.info(f"Caption skill for this session: [bold]{skill}[/bold]")
+    if engine:
+        s.voice_engine = engine
+        log.info(f"Voice engine for this session: [bold]{engine}[/bold]")
 
     from khaosclip.capture import OBSCapture, OBSError
     from khaosclip.events import EventBus
@@ -80,8 +86,8 @@ def run(
     bus = EventBus()
     triggers = []
     if not no_voice:
-        from khaosclip.triggers.voice import VoiceTrigger
-        triggers.append(VoiceTrigger(bus))
+        from khaosclip.triggers.wakeword import make_voice_trigger
+        triggers.append(make_voice_trigger(bus))
     if not no_hotkey:
         from khaosclip.triggers.hotkey import HotkeyTrigger
         triggers.append(HotkeyTrigger(bus))

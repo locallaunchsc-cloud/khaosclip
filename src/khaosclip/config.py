@@ -38,6 +38,27 @@ class Settings(BaseSettings):
         description="Extra phrases that close an open forward clip.",
     )
     vosk_model_path: Path = Path("models/vosk-model-small-en-us-0.15")
+    voice_engine: str = Field(
+        default="vosk",
+        description=(
+            "Voice engine: 'openwakeword' (highest accuracy in noise, requires trained models), 'vosk' "
+            "(full STT string-matching), or 'auto' (openwakeword if its models "
+            "exist on disk, else vosk)."
+        ),
+    )
+    oww_model_dir: Path = Path("models/openwakeword")
+    oww_threshold: float = Field(
+        default=0.5,
+        description="Wake-word confidence threshold 0-1. Raise if false fires, lower if misses.",
+    )
+    oww_cooldown_seconds: float = Field(
+        default=2.0,
+        description="Debounce between wake-word fires — one shout, one clip.",
+    )
+    oww_mode_map: dict[str, str] = Field(
+        default_factory=dict,
+        description="Extra model-stem -> mode mappings, e.g. {'lets_go': 'retro'}.",
+    )
     hotkey: str = Field(
         default="ctrl+alt+c",
         description="Global hotkey fallback trigger (requires [hotkey] extra).",
@@ -139,6 +160,15 @@ class Settings(BaseSettings):
         if isinstance(v, str):
             return [p.strip().lower() for p in v.split(",") if p.strip()]
         return [p.lower() for p in v]
+
+    @field_validator("oww_mode_map", mode="before")
+    @classmethod
+    def _parse_mode_map(cls, v):
+        # Accept "stem:mode,stem2:mode" from .env alongside JSON dicts.
+        if isinstance(v, str) and v.strip() and not v.strip().startswith("{"):
+            pairs = (p.split(":", 1) for p in v.split(",") if ":" in p)
+            return {k.strip().lower(): m.strip().lower() for k, m in pairs}
+        return v or {}
 
     @field_validator("retro_seconds", "max_forward_seconds")
     @classmethod

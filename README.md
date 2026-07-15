@@ -192,6 +192,7 @@ RETRO_PHRASES=aye clip that
 START_PHRASES=aye clip this
 RETRO_SECONDS=60
 MAX_FORWARD_SECONDS=90
+VOICE_ENGINE=vosk   # vosk (shipped default) | openwakeword (higher accuracy, optional upgrade)
 
 # AI captions
 AI_CAPTIONS=true
