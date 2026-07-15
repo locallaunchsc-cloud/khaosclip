@@ -188,6 +188,9 @@ def get_caption_for_clip(clip_path: Path) -> str:
     try:
         transcript = transcribe_clip(clip_path)
         captions = generate_captions(transcript)
+        if s.gui_mode:
+            from khaosclip.gui.picker import pick_caption_gui
+            return pick_caption_gui(captions, default=default, timeout=s.caption_pick_timeout)
         return pick_caption(captions, default=default, timeout=s.caption_pick_timeout)
     except Exception as e:
         log.warning(f"Caption pipeline failed, using default: {e}")

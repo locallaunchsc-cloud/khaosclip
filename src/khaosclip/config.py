@@ -7,6 +7,8 @@ setup is broken BEFORE you go live, not during.
 
 from __future__ import annotations
 
+import os
+import sys
 from pathlib import Path
 from typing import Annotated
 
@@ -14,9 +16,32 @@ from pydantic import Field, field_validator
 from pydantic_settings import BaseSettings, NoDecode, SettingsConfigDict
 
 
+def app_data_dir() -> Path:
+    """Per-user NameiT data dir — where the packaged app keeps .env and clips."""
+    if sys.platform == "win32":
+        base = Path(os.environ.get("APPDATA", Path.home() / "AppData/Roaming"))
+    elif sys.platform == "darwin":
+        base = Path.home() / "Library/Application Support"
+    else:
+        base = Path(os.environ.get("XDG_CONFIG_HOME", Path.home() / ".config"))
+    return base / "NameiT"
+
+
+def env_file_path() -> Path:
+    """Which .env this process reads.
+
+    Packaged app (PyInstaller sets sys.frozen): %APPDATA%/NameiT/.env — survives
+    reinstalls, never lives inside Program Files.
+    Dev checkout: ./.env like always.
+    """
+    if getattr(sys, "frozen", False):
+        return app_data_dir() / ".env"
+    return Path(".env")
+
+
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
-        env_file=".env",
+        env_file=str(env_file_path()),
         env_file_encoding="utf-8",
         extra="ignore",
     )
@@ -152,6 +177,11 @@ class Settings(BaseSettings):
     # ------------------------------------------------------------ misc
     log_level: str = "INFO"
     history_db: Path = Path("clips/history.db")
+    gui_mode: bool = Field(
+        default=False,
+        description="Desktop-app mode: popup caption picker instead of terminal. "
+        "Set automatically by the NameiT tray app.",
+    )
 
     # ------------------------------------------------------------ validators
     @field_validator("retro_phrases", "start_phrases", "end_phrases", mode="before")

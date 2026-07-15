@@ -1,23 +1,22 @@
-# env & secrets
 .env
-*.pem
-
-# python
-__pycache__/
-*.py[cod]
-.venv/
-venv/
-dist/
-build/
-*.egg-info/
-.pytest_cache/
-.ruff_cache/
-.coverage
-
-# app output
+*.env
+!.env.example
+relay.db
+stats.db
 clips/
 logs/
 models/
-*.mp4
-*.mkv
-*.srt
+*.db
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+build/
+dist/
+packaging/out/
+packaging/bin/ffmpeg.exe
+.DS_Store
+Thumbs.db

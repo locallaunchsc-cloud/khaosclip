@@ -50,10 +50,13 @@ class ClipWorker:
     # ------------------------------------------------------------ loop
     def run_forever(self) -> None:
         while True:
-            event = self.bus.next(timeout=0.5)
-            self._maybe_autoclose()
-            if event is None:
-                continue
+            self.run_once(timeout=0.5)
+
+    def run_once(self, timeout: float = 0.5) -> None:
+        """One loop iteration — lets the tray app run the worker stoppably."""
+        event = self.bus.next(timeout=timeout)
+        self._maybe_autoclose()
+        if event is not None:
             self.dispatch(event)
 
     def _maybe_autoclose(self) -> None:
